@@ -8,6 +8,20 @@ from ..schemas.book_order import BookOrderCreate, BookOrder as BookOrderSchema, 
 
 router = APIRouter()
 
+@router.get("/test/")
+def test_endpoint():
+    """
+    A simple test endpoint that returns a basic message.
+    
+    Returns:
+        dict: A dictionary containing a welcome message and status
+    """
+    return {
+        "message": "Welcome to the Bookstore API!",
+        "status": "success",
+        "test": True
+    }
+
 @router.post("/orders/", response_model=BookOrderSchema)
 def create_book_order(order: BookOrderCreate, db: Session = Depends(get_db)):
     db_order = BookOrder(**order.dict())

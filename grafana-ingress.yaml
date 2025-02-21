@@ -1,0 +1,32 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: grafana-ing
+  namespace: prometheus
+  annotations:
+    nginx.org/redirect-to-https: "true"
+    ingress.kubernetes.io/ssl-redirect: "true"
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.org/proxy-connect-timeout: "30s"
+    nginx.org/proxy-read-timeout: "120s"
+    nginx.org/client-max-body-size: "20m"
+    acme.cert-manager.io/http01-edit-in-place: "true"
+    cert-manager.io/issue-temporary-certificate: "true"
+
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - grafana.jointeleios.com
+      secretName: grafana
+  rules:
+    - host: grafana.jointeleios.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: prometheus-grafana
+                port:
+                  number: 80
