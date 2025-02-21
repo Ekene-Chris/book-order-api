@@ -14,7 +14,7 @@ def test_endpoint():
     A simple test endpoint that returns a basic message.
     
     Returns:
-        dict: A dictionary containing a welcome message and status
+        dict: A dictionary containing a welcome message and status.
     """
     return {
         "message": "Welcome to the Bookstore API!",
